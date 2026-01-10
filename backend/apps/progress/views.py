@@ -1,3 +1,12 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .models import ProgressLog
+from .serializers import ProgressLogSerializer
 
-# Create your views here.
+
+class ProgressLogViewSet(viewsets.ModelViewSet):
+    serializer_class = ProgressLogSerializer
+
+    def get_queryset(self):
+        return ProgressLog.objects.filter(
+            child__parent=self.request.user
+        )
