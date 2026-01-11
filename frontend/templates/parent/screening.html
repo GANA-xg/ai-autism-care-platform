@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Autism Screening{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Early Autism Screening</h2>
+
+<form>
+
+    <div class="mb-3">
+        <label class="form-label">Child Age (months)</label>
+        <input type="number" class="form-control" placeholder="e.g. 24">
+    </div>
+
+    <h5 class="mt-4">Behavioral Questions</h5>
+
+    <div class="mb-3">
+        <label class="form-label">
+            Does your child respond to their name?
+        </label>
+        <select class="form-select">
+            <option>Yes</option>
+            <option>No</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            Does your child make eye contact?
+        </label>
+        <select class="form-select">
+            <option>Yes</option>
+            <option>No</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            Does your child point to show interest?
+        </label>
+        <select class="form-select">
+            <option>Yes</option>
+            <option>No</option>
+        </select>
+    </div>
+
+    <button class="btn btn-primary mt-3">
+        Submit Screening
+    </button>
+
+</form>
+
+{% endblock %}
