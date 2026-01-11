@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Parent Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Parent Dashboard</h2>
+
+<div class="row">
+
+    <!-- Child Profile Card -->
+    <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Child Profile</h5>
+                <p><strong>Name:</strong> Alex</p>
+                <p><strong>Age:</strong> 3 years</p>
+                <p><strong>Risk Level:</strong>
+                    <span class="badge bg-warning">Medium</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screening Summary -->
+    <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Latest Screening</h5>
+                <p>Date: 10 Jan 2026</p>
+                <p>Result: Needs further evaluation</p>
+                <a href="#" class="btn btn-primary btn-sm">
+                    View Screening Details
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Therapy Plan -->
+    <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Therapy Plan</h5>
+                <ul>
+                    <li>Speech Therapy</li>
+                    <li>Social Interaction Exercises</li>
+                    <li>Motor Skills Activities</li>
+                </ul>
+                <a href="#" class="btn btn-success btn-sm">
+                    View Full Plan
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Progress Section -->
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">Progress Overview</h5>
+        <canvas id="progressChart" height="100"></canvas>
+    </div>
+</div>
+
+{% endblock %}
