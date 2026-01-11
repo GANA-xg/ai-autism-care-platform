@@ -2,51 +2,87 @@
 {% block title %}Autism Screening{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Early Autism Screening</h2>
+<h3 class="mb-4">Autism Screening Questionnaire</h3>
 
-<form>
-
-    <div class="mb-3">
-        <label class="form-label">Child Age (months)</label>
-        <input type="number" class="form-control" placeholder="e.g. 24">
-    </div>
-
-    <h5 class="mt-4">Behavioral Questions</h5>
+<form id="screening-form">
 
     <div class="mb-3">
-        <label class="form-label">
-            Does your child respond to their name?
-        </label>
-        <select class="form-select">
-            <option>Yes</option>
-            <option>No</option>
-        </select>
+        <label>1. Poor eye contact?</label><br>
+        <input type="radio" name="q1" value="true" required> Yes
+        <input type="radio" name="q1" value="false"> No
     </div>
 
     <div class="mb-3">
-        <label class="form-label">
-            Does your child make eye contact?
-        </label>
-        <select class="form-select">
-            <option>Yes</option>
-            <option>No</option>
-        </select>
+        <label>2. Delayed speech development?</label><br>
+        <input type="radio" name="q2" value="true" required> Yes
+        <input type="radio" name="q2" value="false"> No
     </div>
 
     <div class="mb-3">
-        <label class="form-label">
-            Does your child point to show interest?
-        </label>
-        <select class="form-select">
-            <option>Yes</option>
-            <option>No</option>
-        </select>
+        <label>3. Limited social interaction?</label><br>
+        <input type="radio" name="q3" value="true" required> Yes
+        <input type="radio" name="q3" value="false"> No
     </div>
 
-    <button class="btn btn-primary mt-3">
+    <div class="mb-3">
+        <label>4. Repetitive behaviors?</label><br>
+        <input type="radio" name="q4" value="true" required> Yes
+        <input type="radio" name="q4" value="false"> No
+    </div>
+
+    <button type="submit" class="btn btn-primary">
         Submit Screening
     </button>
-
 </form>
 
+<hr>
+
+<div id="screening-result" class="mt-4"></div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+const params = new URLSearchParams(window.location.search);
+const childId = params.get("child_id");
+
+document.getElementById("screening-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const responses = [
+        { question: "Poor eye contact", answer: document.querySelector('input[name="q1"]:checked').value === "true" },
+        { question: "Delayed speech", answer: document.querySelector('input[name="q2"]:checked').value === "true" },
+        { question: "Limited social interaction", answer: document.querySelector('input[name="q3"]:checked').value === "true" },
+        { question: "Repetitive behaviors", answer: document.querySelector('input[name="q4"]:checked').value === "true" }
+    ];
+
+    fetch("/api/screenings/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": CSRF_TOKEN
+        },
+        body: JSON.stringify({
+            child: childId,
+            age_in_months: 24,
+            responses: responses
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("screening-result").innerHTML = `
+            <div class="alert alert-info">
+                <h5>Screening Result</h5>
+                <p><strong>Risk Level:</strong> ${data.risk_level.toUpperCase()}</p>
+                <p><strong>Total Score:</strong> ${data.total_score}</p>
+            </div>
+        `;
+    })
+    .catch(err => {
+        console.error(err);
+        document.getElementById("screening-result").innerHTML =
+            "<div class='alert alert-danger'>Screening failed.</div>";
+    });
+});
+</script>
 {% endblock %}
