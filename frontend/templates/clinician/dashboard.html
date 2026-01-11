@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Clinician Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Clinician Dashboard</h2>
+
+<div class="card mb-4 shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">Patient Overview</h5>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Child Name</th>
+                    <th>Age</th>
+                    <th>Risk Level</th>
+                    <th>Last Screening</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Alex</td>
+                    <td>3 yrs</td>
+                    <td><span class="badge bg-warning">Medium</span></td>
+                    <td>10 Jan 2026</td>
+                    <td>
+                        <a href="#" class="btn btn-sm btn-primary">
+                            View Details
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Emma</td>
+                    <td>4 yrs</td>
+                    <td><span class="badge bg-danger">High</span></td>
+                    <td>08 Jan 2026</td>
+                    <td>
+                        <a href="#" class="btn btn-sm btn-primary">
+                            View Details
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Liam</td>
+                    <td>2 yrs</td>
+                    <td><span class="badge bg-success">Low</span></td>
+                    <td>12 Jan 2026</td>
+                    <td>
+                        <a href="#" class="btn btn-sm btn-primary">
+                            View Details
+                        </a>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Clinical Insights -->
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">AI Clinical Insights</h5>
+        <ul>
+            <li>2 children require further diagnostic evaluation</li>
+            <li>1 child showing steady improvement</li>
+            <li>No regression detected this month</li>
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
