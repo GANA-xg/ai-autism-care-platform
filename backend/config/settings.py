@@ -43,12 +43,16 @@ INSTALLED_APPS = [
     'corsheaders',
     'drf_spectacular',
 
+
     # Local apps
     'apps.users',
     'apps.children',
     'apps.screening',
     'apps.therapy',
     'apps.progress',
+
+    'frontend_pages',
+
 ]
 
 MIDDLEWARE = [
@@ -62,12 +66,15 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR.parent / "frontend" / "templates"
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,6 +85,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
@@ -150,3 +158,10 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'APIs for early autism screening, therapy planning, and progress tracking',
     'VERSION': '1.0.0',
 }
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+
+LOGIN_URL = "/login/"
+LOGOUT_REDIRECT_URL = "/login/"
+LOGIN_REDIRECT_URL = "/parent/dashboard/"
