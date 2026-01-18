@@ -4,43 +4,32 @@
 {% block content %}
 <h3 class="mb-4">Your Children</h3>
 
-<div id="children-list" class="row"></div>
+<div class="row">
+    {% if child_data %}
+        {% for item in child_data %}
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ item.child.full_name }}
+                        </h5>
 
-<script>
-fetch("/api/children/")
-    .then(response => response.json())
-    .then(children => {
-        const container = document.getElementById("children-list");
+                        <p class="card-text">
+                            Gender: {{ item.child.gender }}<br>
+                            Risk Level: {{ item.risk }}<br>
+                            Therapy Plans: {{ item.therapy_count }}
+                        </p>
 
-        if (children.length === 0) {
-            container.innerHTML = "<p>No children added yet.</p>";
-            return;
-        }
-
-        children.forEach(child => {
-            container.innerHTML += `
-                <div class="col-md-4 mb-3">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">${child.full_name}</h5>
-                            <p class="card-text">
-                                Gender: ${child.gender}<br>
-                                DOB: ${child.date_of_birth}
-                            </p>
-                            <a href="/parent/screening/?child_id=${child.id}"
-                               class="btn btn-primary btn-sm">
-                               Start Screening
-                            </a>
-                        </div>
+                        <a href="{% url 'parent-screening' %}"
+                           class="btn btn-primary btn-sm">
+                            Start Screening
+                        </a>
                     </div>
                 </div>
-            `;
-        });
-    })
-    .catch(err => {
-        console.error(err);
-        document.getElementById("children-list").innerHTML =
-            "<p class='text-danger'>Failed to load children.</p>";
-    });
-</script>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No children added yet.</p>
+    {% endif %}
+</div>
 {% endblock %}

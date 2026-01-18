@@ -2,38 +2,50 @@
 {% block title %}Autism Screening{% endblock %}
 
 {% block content %}
-<h3 class="mb-4">Autism Screening Questionnaire</h3>
+<h3 class="mb-4">Autism Screening</h3>
 
-<form id="screening-form">
-
-    <div class="mb-3">
-        <label>1. Poor eye contact?</label><br>
-        <input type="radio" name="q1" value="true" required> Yes
-        <input type="radio" name="q1" value="false"> No
-    </div>
+<form method="post">
+    {% csrf_token %}
 
     <div class="mb-3">
-        <label>2. Delayed speech development?</label><br>
-        <input type="radio" name="q2" value="true" required> Yes
-        <input type="radio" name="q2" value="false"> No
+        <label class="form-label">Select Child</label>
+        <select name="child_id" class="form-select" required>
+            {% for child in children %}
+                <option value="{{ child.id }}">
+                    {{ child.full_name }}
+                </option>
+            {% endfor %}
+        </select>
     </div>
 
-    <div class="mb-3">
-        <label>3. Limited social interaction?</label><br>
-        <input type="radio" name="q3" value="true" required> Yes
-        <input type="radio" name="q3" value="false"> No
+    <h5 class="mt-4">Screening Questions</h5>
+
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="q1" id="q1">
+        <label class="form-check-label" for="q1">
+            Poor eye contact
+        </label>
     </div>
 
-    <div class="mb-3">
-        <label>4. Repetitive behaviors?</label><br>
-        <input type="radio" name="q4" value="true" required> Yes
-        <input type="radio" name="q4" value="false"> No
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="q2" id="q2">
+        <label class="form-check-label" for="q2">
+            Delayed speech
+        </label>
     </div>
 
-    <button type="submit" class="btn btn-primary">
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="q3" id="q3">
+        <label class="form-check-label" for="q3">
+            Limited gestures
+        </label>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-4">
         Submit Screening
     </button>
 </form>
+
 
 <hr>
 

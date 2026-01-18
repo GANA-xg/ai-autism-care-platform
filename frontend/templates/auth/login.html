@@ -6,29 +6,61 @@
     <div class="col-md-4">
         <h3 class="text-center mb-4">Login</h3>
 
-        {% if form.errors %}
+        {% if error %}
             <div class="alert alert-danger">
-                Invalid username or password
+                {{ error }}
             </div>
         {% endif %}
 
         <form method="post">
             {% csrf_token %}
 
+            <!-- Username -->
             <div class="mb-3">
-                <label class="form-label">Username</label>
-                <input type="text" name="username" class="form-control" required>
+                <input
+                    type="text"
+                    name="username"
+                    class="form-control"
+                    placeholder="Username"
+                    required
+                />
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Password</label>
-                <input type="password" name="password" class="form-control" required>
+            <!-- Password with eye toggle -->
+            <div class="mb-3 position-relative">
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="Password"
+                    required
+                />
+                <span
+                    onclick="togglePassword()"
+                    style="position:absolute; right:12px; top:50%; transform:translateY(-50%); cursor:pointer;"
+                >
+                    👁️
+                </span>
             </div>
 
             <button type="submit" class="btn btn-primary w-100">
                 Login
             </button>
+            
         </form>
+
+        <!-- Forgot password -->
+        <div class="text-center mt-3">
+            <a href="{% url 'password_reset' %}">Forgot password?</a>
+        </div>
     </div>
 </div>
+
+<script>
+function togglePassword() {
+    const pwd = document.getElementById("password");
+    pwd.type = pwd.type === "password" ? "text" : "password";
+}
+</script>
 {% endblock %}
