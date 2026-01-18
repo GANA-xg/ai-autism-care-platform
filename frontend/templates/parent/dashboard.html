@@ -2,63 +2,45 @@
 {% block title %}Parent Dashboard{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Parent Dashboard</h2>
+<h3 class="mb-4">Your Children</h3>
 
-<div class="row">
+<div id="children-list" class="row"></div>
 
-    <!-- Child Profile Card -->
-    <div class="col-md-4">
-        <div class="card mb-4 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title">Child Profile</h5>
-                <p><strong>Name:</strong> Alex</p>
-                <p><strong>Age:</strong> 3 years</p>
-                <p><strong>Risk Level:</strong>
-                    <span class="badge bg-warning">Medium</span>
-                </p>
-            </div>
-        </div>
-    </div>
+<script>
+fetch("/api/children/")
+    .then(response => response.json())
+    .then(children => {
+        const container = document.getElementById("children-list");
 
-    <!-- Screening Summary -->
-    <div class="col-md-4">
-        <div class="card mb-4 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title">Latest Screening</h5>
-                <p>Date: 10 Jan 2026</p>
-                <p>Result: Needs further evaluation</p>
-                <a href="#" class="btn btn-primary btn-sm">
-                    View Screening Details
-                </a>
-            </div>
-        </div>
-    </div>
+        if (children.length === 0) {
+            container.innerHTML = "<p>No children added yet.</p>";
+            return;
+        }
 
-    <!-- Therapy Plan -->
-    <div class="col-md-4">
-        <div class="card mb-4 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title">Therapy Plan</h5>
-                <ul>
-                    <li>Speech Therapy</li>
-                    <li>Social Interaction Exercises</li>
-                    <li>Motor Skills Activities</li>
-                </ul>
-                <a href="#" class="btn btn-success btn-sm">
-                    View Full Plan
-                </a>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<!-- Progress Section -->
-<div class="card shadow-sm">
-    <div class="card-body">
-        <h5 class="card-title">Progress Overview</h5>
-        <canvas id="progressChart" height="100"></canvas>
-    </div>
-</div>
-
+        children.forEach(child => {
+            container.innerHTML += `
+                <div class="col-md-4 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">${child.full_name}</h5>
+                            <p class="card-text">
+                                Gender: ${child.gender}<br>
+                                DOB: ${child.date_of_birth}
+                            </p>
+                            <a href="/parent/screening/?child_id=${child.id}"
+                               class="btn btn-primary btn-sm">
+                               Start Screening
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    })
+    .catch(err => {
+        console.error(err);
+        document.getElementById("children-list").innerHTML =
+            "<p class='text-danger'>Failed to load children.</p>";
+    });
+</script>
 {% endblock %}
